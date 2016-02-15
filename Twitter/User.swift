@@ -22,6 +22,7 @@ class User: NSObject {
     var profileImageUrl: String?
     var tagline: String?
     var dictionary: NSDictionary?
+    var imageURL: NSURL?
 
     init(dictionary: NSDictionary)
     {
@@ -30,6 +31,13 @@ class User: NSObject {
         screenname = dictionary["screen_name"]   as? String
         profileImageUrl = dictionary["profile_image_url"] as? String
         tagline = dictionary["description"] as? String
+        
+        
+        if profileImageUrl != nil {
+            imageURL = NSURL(string: profileImageUrl!)!
+        } else {
+            imageURL = nil
+        }
     }
     
     func logout() {

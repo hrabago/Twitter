@@ -27,11 +27,10 @@ class TwitterClient: BDBOAuth1SessionManager {
     
     func homeTimelineWithParams(params: NSDictionary?, completion: (tweets: [Tweet]?, error: NSError?) -> ()){
         
-        GET("1.1/statuses/home_timeline.json",
+        GET("1.1/statuses/home_timeline.json", parameters: params,
             
-            parameters: params,
             success: { (
-                operation: NSURLSessionDataTask!,
+                operation: NSURLSessionDataTask,
                 response: AnyObject?) -> Void in
                 //print("home_timeline: \(response!)")
                 
@@ -43,7 +42,7 @@ class TwitterClient: BDBOAuth1SessionManager {
             failure: { (
                 operation: NSURLSessionDataTask?,
                 error: NSError!) -> Void in
-                print("error getting current user")
+                print("error getting current user1")
                 completion(tweets: nil , error: error)
 
                 
@@ -62,7 +61,7 @@ class TwitterClient: BDBOAuth1SessionManager {
         TwitterClient.sharedInstance.fetchRequestTokenWithPath("oauth/request_token", method: "GET", callbackURL: NSURL(string: "cptwitterdemo://oauth"), scope: nil, success: {
             (requestToken: BDBOAuth1Credential!) -> Void in
             print("Got the request token")
-            var authURL = NSURL(string: "https://api.twitter.com/oauth/authorize?oauth_token=\(requestToken.token)")
+            let authURL = NSURL(string: "https://api.twitter.com/oauth/authorize?oauth_token=\(requestToken.token)")
             
             UIApplication.sharedApplication().openURL(authURL!)
             
@@ -100,7 +99,7 @@ class TwitterClient: BDBOAuth1SessionManager {
                     failure: { (
                         operation: NSURLSessionDataTask?,
                         error: NSError!) -> Void in
-                        print("error getting current user")
+                        print("error getting current user2")
                         self.loginCompletion!(user: nil, error: error)
                         
                 })

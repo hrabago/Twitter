@@ -8,6 +8,9 @@
 
 import UIKit
 
+var tweetUser: Tweet?
+
+
 class Tweet: NSObject {
 
     
@@ -22,11 +25,14 @@ class Tweet: NSObject {
         text = dictionary["text"] as? String
         createdAtString = dictionary["created_at"] as? String
         
-        var formatter = NSDateFormatter()
-        formatter.dateFormat = "EEE  MMM d HH:mm::ss Z y"
+        let formatter = NSDateFormatter()
+        formatter.dateFormat = "EEE MMM d HH:mm:ss Z y"
+        //formatter.dateStyle = NSDateFormatterStyle.ShortStyle
+        //formatter.timeStyle = NSDateFormatterStyle.ShortStyle
+        
         createdAt = formatter.dateFromString(createdAtString!)
         
-        
+
         
     }
     
