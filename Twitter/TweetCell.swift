@@ -8,6 +8,11 @@
 
 import UIKit
 
+@objc protocol TweetCellDelegate{
+    
+    optional func tweetCell(tweetCell: TweetCell, didChangeValue value: Bool)
+}
+
 class TweetCell: UITableViewCell {
 
     @IBOutlet weak var profileImageView: UIImageView!
@@ -23,6 +28,11 @@ class TweetCell: UITableViewCell {
     @IBOutlet weak var favoriteButton: UIButton!
     
     @IBOutlet weak var retweetButton: UIButton!
+    
+    weak var delegate: TweetCellDelegate?
+    
+    let favoritePressedImage = UIImage(named: "like-action-on.png")! as UIImage
+
     
     var tweet: Tweet!{
         
@@ -50,6 +60,9 @@ class TweetCell: UITableViewCell {
         
         fullNameLabel.preferredMaxLayoutWidth = fullNameLabel.frame.size.width
         
+        favoriteButton.addTarget(self, action: "favoriteValueChanged", forControlEvents:UIControlEvents.TouchUpInside)
+        
+        
         // Initialization code
     }
 
@@ -64,5 +77,19 @@ class TweetCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
+    
+    func favoriteValueChanged()
+    {
+        
+        if delegate != nil{
+            
+            delegate?.tweetCell?(self, didChangeValue: favoriteButton.selected)
+            
+        }
+        
+        favoriteButton.selected = true
+        
+    }
+    
     
 }

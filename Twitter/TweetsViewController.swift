@@ -9,14 +9,17 @@
 import UIKit
 import BDBOAuth1Manager
 
-
-class TweetsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class TweetsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, TweetCellDelegate {
     
     var tweets: [Tweet]?
+    var favoriteStates = [Int:Bool]()
+    
+    
+    
+    
 
     @IBOutlet weak var tableView: UITableView!
     
-    let favoritePressedImage = UIImage(named: "like-action-on.png")! as UIImage
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -84,10 +87,21 @@ class TweetsViewController: UIViewController, UITableViewDataSource, UITableView
         
         cell.tweet = tweets?[indexPath.row]
         
+        cell.delegate = self
+        
+        cell.favoriteButton.selected = favoriteStates[indexPath.row] ?? false
         
         return cell
     }
-    
+    func tweetCell(tweetCell: TweetCell, didChangeValue value: Bool) {
+        
+        let indexPath = tableView.indexPathForCell(tweetCell)
+        
+        print("tweets view controller got the event")
+        
+        favoriteStates[indexPath!.row] = value
+        
+    }
     
     @IBAction func retweetAction(sender: AnyObject) {
         
@@ -96,7 +110,8 @@ class TweetsViewController: UIViewController, UITableViewDataSource, UITableView
     
     @IBAction func favoriteAction(sender: AnyObject) {
         
-        sender.setImage(favoritePressedImage, forState: UIControlState.Selected)
+        
+        //sender.setImage(favoritePressedImage, forState: UIControlState.Normal)
 
     }
     
