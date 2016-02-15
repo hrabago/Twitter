@@ -62,6 +62,8 @@ class TweetCell: UITableViewCell {
         
         favoriteButton.addTarget(self, action: "favoriteValueChanged", forControlEvents:UIControlEvents.TouchUpInside)
         
+        retweetButton.addTarget(self, action: "retweetValueChanged", forControlEvents:UIControlEvents.TouchUpInside)
+        
         
         // Initialization code
     }
@@ -76,6 +78,7 @@ class TweetCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
+        
     }
     
     func favoriteValueChanged()
@@ -90,6 +93,19 @@ class TweetCell: UITableViewCell {
         favoriteButton.selected = true
         
     }
+    func retweetValueChanged()
+    {
+        
+        if delegate != nil{
+            
+            delegate?.tweetCell?(self, didChangeValue: retweetButton.selected)
+            
+        }
+        
+        retweetButton.selected = true
+        
+    }
+
     
     
 }

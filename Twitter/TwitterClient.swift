@@ -43,7 +43,9 @@ class TwitterClient: BDBOAuth1SessionManager {
                 operation: NSURLSessionDataTask?,
                 error: NSError!) -> Void in
                 print("error getting current user1")
+                User.currentUser?.logout()
                 completion(tweets: nil , error: error)
+                
 
                 
         })
@@ -68,6 +70,42 @@ class TwitterClient: BDBOAuth1SessionManager {
             }){ (error: NSError!) -> Void in
                 print("Failed to get to the request token")
                 self.loginCompletion!(user: nil, error: error) 
+        }
+    }
+    
+    func favoriteWithCompletion(params: NSDictionary?, completion: (tweet: Tweet?, error: NSError?) -> ())
+    {
+        
+        POST("1.1/favorites/create.json", parameters: params, success: { (operation: NSURLSessionDataTask, response: AnyObject?) -> Void in
+            
+            var tweet = Tweet.tweetAsDictionary(response as! NSDictionary)
+            
+            //print("This is the retweetCount: \(tweet.retweetCount)")
+            //print("This is the favCount: \(tweet.favCount)")
+            
+            completion(tweet: tweet, error: nil)
+            
+            }) { (operation: NSURLSessionDataTask?, error: NSError) -> Void in
+                print("ERROR: \(error)")
+                completion(tweet: nil, error: error)
+        }
+    }
+    func retweetWithCompletion(params: NSDictionary?, completion: (tweet: Tweet?, error: NSError?) -> ()) {
+        
+        POST("1.1/statuses/retweet/\(params!["id"] as! Int).json", parameters: params, success: { (operation: NSURLSessionDataTask, response: AnyObject?) -> Void in
+            
+            var tweet = Tweet.tweetAsDictionary(response as! NSDictionary)
+            
+            //print("This is the retweetCount: \(tweet.retweetCount)")
+            //print("This is the favCount: \(tweet.favCount)")
+            
+            //  print(tweet)
+            
+            completion(tweet: tweet, error: nil)
+            
+            }) { (operation: NSURLSessionDataTask?, error: NSError) -> Void in
+                print("ERROR: \(error)")
+                completion(tweet: nil, error: error)
         }
     }
     
@@ -100,6 +138,7 @@ class TwitterClient: BDBOAuth1SessionManager {
                         operation: NSURLSessionDataTask?,
                         error: NSError!) -> Void in
                         print("error getting current user2")
+                        User.currentUser?.logout()
                         self.loginCompletion!(user: nil, error: error)
                         
                 })

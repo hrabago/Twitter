@@ -17,8 +17,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vg2-VZ-v1f">
-                                <rect key="frame" x="131" y="353" width="153" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vg2-VZ-v1f">
+                                <rect key="frame" x="146" y="353" width="122" height="30"/>
                                 <state key="normal" title="Login with Twitter">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -26,12 +26,23 @@
                                     <action selector="onLogin:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Ufo-1i-HZ3"/>
                                 </connections>
                             </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="TwitterLogo_white.png" translatesAutoresizingMaskIntoConstraints="NO" id="uus-qO-qhR">
-                                <rect key="frame" x="131" y="353" width="32" height="32"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="TwitterLogo_white.png" translatesAutoresizingMaskIntoConstraints="NO" id="uus-qO-qhR">
+                                <rect key="frame" x="106" y="353" width="32" height="32"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="32" id="ewJ-Sg-rqb"/>
+                                    <constraint firstAttribute="width" constant="32" id="vtG-NH-ZIn"/>
+                                </constraints>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" red="0.33333333329999998" green="0.67450980390000004" blue="0.93333333330000001" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="vg2-VZ-v1f" firstAttribute="top" secondItem="uus-qO-qhR" secondAttribute="top" id="CzD-wc-FMK"/>
+                            <constraint firstItem="vg2-VZ-v1f" firstAttribute="leading" secondItem="uus-qO-qhR" secondAttribute="trailing" constant="8" id="D7z-9d-oOr"/>
+                            <constraint firstItem="vg2-VZ-v1f" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="gde-1e-GAb"/>
+                            <constraint firstItem="vg2-VZ-v1f" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="ksh-1W-g8g"/>
+                        </constraints>
                     </view>
+                    <nil key="simulatedStatusBarMetrics"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                     <connections>
                         <segue destination="IY4-7p-koQ" kind="modal" identifier="loginSegue" id="53B-jP-mPr"/>
@@ -161,7 +172,7 @@
                                             <outlet property="favoriteButton" destination="OSL-qt-hVn" id="0yq-Lp-R1J"/>
                                             <outlet property="fullNameLabel" destination="tD6-ua-7cl" id="vMv-U8-vgG"/>
                                             <outlet property="profileImageView" destination="y8T-LB-o52" id="B7w-i4-Y4a"/>
-                                            <outlet property="retweetButton" destination="E1c-o7-Wcq" id="fv3-vc-Yzi"/>
+                                            <outlet property="retweetButton" destination="E1c-o7-Wcq" id="Z3f-cw-gIi"/>
                                             <outlet property="timeLabel" destination="SwT-RB-drl" id="mm3-DA-Rmm"/>
                                             <outlet property="tweetLabel" destination="a1j-2c-NPN" id="4g8-PN-L28"/>
                                             <outlet property="usernameLabel" destination="0tZ-Au-T3f" id="gJP-u9-yqZ"/>

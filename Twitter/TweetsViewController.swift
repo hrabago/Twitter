@@ -8,6 +8,8 @@
 
 import UIKit
 import BDBOAuth1Manager
+import MBProgressHUD
+
 
 class TweetsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, TweetCellDelegate {
     
@@ -19,12 +21,20 @@ class TweetsViewController: UIViewController, UITableViewDataSource, UITableView
     
 
     @IBOutlet weak var tableView: UITableView!
-    
+    let favoritePressedImage = UIImage(named: "like-action-on.png")! as UIImage
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
 
+        // Initialize a UIRefreshControl
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: "refreshControlAction:", forControlEvents: UIControlEvents.ValueChanged)
+        tableView.insertSubview(refreshControl, atIndex: 0)
+
+
+        
         let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
         //imageView.contentMode = .ScaleAspectFit
         
@@ -93,6 +103,8 @@ class TweetsViewController: UIViewController, UITableViewDataSource, UITableView
         
         return cell
     }
+    
+    
     func tweetCell(tweetCell: TweetCell, didChangeValue value: Bool) {
         
         let indexPath = tableView.indexPathForCell(tweetCell)
@@ -102,16 +114,94 @@ class TweetsViewController: UIViewController, UITableViewDataSource, UITableView
         favoriteStates[indexPath!.row] = value
         
     }
+    func refreshControlAction(refreshControl: UIRefreshControl) {
+        
+        MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+        
+        TwitterClient.sharedInstance.homeTimelineWithParams(nil , completion: { (tweets,error) -> () in
+            self.tweets = tweets
+            self.tableView.reloadData()
+            
+            
+            // Tell the refreshControl to stop spinning
+            refreshControl.endRefreshing()
+            
+            MBProgressHUD.hideHUDForView(self.view, animated: true)
+
+            
+            
+        })
+        
+    }
+
     
     @IBAction func retweetAction(sender: AnyObject) {
+        print("Retweet button clicked")
+        
+        var subviewPostion: CGPoint = sender.convertPoint(CGPointZero, toView: self.tableView)
+        
+        var indexPath: NSIndexPath = self.tableView.indexPathForRowAtPoint(subviewPostion)!
+        
+        let cell: UITableViewCell =  self.tableView.cellForRowAtIndexPath(indexPath)!
+        
+        print("This is the index path of the cell: \(indexPath.row)")
+        
+        let tweet = tweets![indexPath.row]
+        
+        let tweetID = tweet.id
+        
+        TwitterClient.sharedInstance.retweetWithCompletion(["id": tweetID!]) { (tweet, error) -> () in
+            
+            if (tweet != nil) {
+                print("Tweet was printed successfull.. incre tweet retweet count here")
+                
+                //self.tweets![indexPath.row].retweetCount = self.tweets![indexPath.row].retweetCount as! Int + 1
+                
+                var indexPath = NSIndexPath(forRow: indexPath.row, inSection: 0)
+                self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Top)
+                
+            }
+            else {
+                print("Did it print the print fav tweet? cause this is the error message and you should not be seeing this.")
+            }
+        }
         
         
     }
     
     @IBAction func favoriteAction(sender: AnyObject) {
         
-        
+        print("fav button pressed")
         //sender.setImage(favoritePressedImage, forState: UIControlState.Normal)
+
+        var subviewPostion: CGPoint = sender.convertPoint(CGPointZero, toView: self.tableView)
+        
+        var indexPath: NSIndexPath = self.tableView.indexPathForRowAtPoint(subviewPostion)!
+        
+        let cell: UITableViewCell =  self.tableView.cellForRowAtIndexPath(indexPath)!
+        
+        let tweet = tweets![indexPath.row]
+        
+        let tweetID = tweet.id
+        
+        
+        
+        
+        TwitterClient.sharedInstance.favoriteWithCompletion(["id": tweetID!]) { (tweet, error) -> () in
+            
+            if (tweet != nil) {
+                print("Tweet was printed successfull.. incre tweet count here")
+                
+                self.tweets![indexPath.row] = tweet!
+                var indexPath = NSIndexPath(forRow: indexPath.row, inSection: 0)
+                self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Top)
+                
+
+            }
+            else {
+                print("Did it print the print fav tweet? cause this is the error message and you should not be seeing this.")
+            }
+        }
 
     }
     
