@@ -11,10 +11,13 @@ import BDBOAuth1Manager
 import MBProgressHUD
 
 
-class TweetsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, TweetCellDelegate {
+class TweetsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchResultsUpdating,TweetCellDelegate {
     
     var tweets: [Tweet]?
+    var filteredTweets: [Tweet]?
+    
     var favoriteStates = [Int:Bool]()
+    var searchController: UISearchController!
     
     
     
@@ -27,6 +30,7 @@ class TweetsViewController: UIViewController, UITableViewDataSource, UITableView
     override func viewDidLoad() {
         super.viewDidLoad()
         
+
 
         // Initialize a UIRefreshControl
         let refreshControl = UIRefreshControl()
@@ -42,13 +46,18 @@ class TweetsViewController: UIViewController, UITableViewDataSource, UITableView
         let image = UIImage(named: "TwitterLogo_white.png")
         imageView.image = image
         // 5
-        navigationItem.titleView = imageView
+        //navigationItem.titleView = imageView
+        navigationController?.navigationBar.topItem?.titleView = imageView
         navigationItem.titleView?.contentMode = UIViewContentMode.ScaleAspectFit
-        navigationItem.titleView?.center.x = tableView.frame.size.width
+
+        navigationItem.titleView?.center.x = tableView.frame.size.width / 2
+        
+        
         
         
         TwitterClient.sharedInstance.homeTimelineWithParams(nil , completion: { (tweets,error) -> () in
             self.tweets = tweets
+            self.filteredTweets = tweets
             self.tableView.reloadData()
             
                     
@@ -59,6 +68,7 @@ class TweetsViewController: UIViewController, UITableViewDataSource, UITableView
         
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 300
+        
         
         
         
@@ -79,9 +89,9 @@ class TweetsViewController: UIViewController, UITableViewDataSource, UITableView
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        if tweets != nil{
+        if filteredTweets != nil{
             
-            return (tweets?.count)!
+            return (filteredTweets?.count)!
             
         }else{
             
@@ -95,11 +105,16 @@ class TweetsViewController: UIViewController, UITableViewDataSource, UITableView
         
         let cell = tableView.dequeueReusableCellWithIdentifier("TweetCell", forIndexPath: indexPath) as! TweetCell
         
-        cell.tweet = tweets?[indexPath.row]
+        cell.tweet = filteredTweets?[indexPath.row]
         
         cell.delegate = self
         
         cell.favoriteButton.selected = favoriteStates[indexPath.row] ?? false
+        
+        //let backgroundView = UIView()
+        //backgroundView.backgroundColor = UIColor(red: 85.0/255.0, green: 172.0/255.0, blue: 238.0/255.0, alpha: 1.0)
+        
+        //cell.selectedBackgroundView = backgroundView
         
         return cell
     }
@@ -120,6 +135,7 @@ class TweetsViewController: UIViewController, UITableViewDataSource, UITableView
         
         TwitterClient.sharedInstance.homeTimelineWithParams(nil , completion: { (tweets,error) -> () in
             self.tweets = tweets
+            self.filteredTweets = tweets
             self.tableView.reloadData()
             
             
@@ -205,15 +221,95 @@ class TweetsViewController: UIViewController, UITableViewDataSource, UITableView
 
     }
     
+    @IBAction func searchAction(sender: AnyObject) {
     
-    /*
+        // Initializing with searchResultsController set to nil means that
+        // searchController will use this view controller to display the search results
+        searchController = UISearchController(searchResultsController: nil)
+        self.searchController.searchResultsUpdater = self
+
+        // If we are using this same view controller to present the results
+        // dimming it out wouldn't make sense.  Should set probably only set
+        // this to yes if using another controller to display the search results.
+        automaticallyAdjustsScrollViewInsets = false
+        definesPresentationContext = true
+        searchController.dimsBackgroundDuringPresentation = false
+        
+        
+        searchController.searchBar.placeholder = "Search User"
+        //searchController.searchBar.sizeToFit()
+        //tableView.tableHeaderView = searchController?.searchBar
+
+        
+        // Sets this view controller as presenting view controller for the search interface
+        definesPresentationContext = true
+        
+        searchController.searchBar.sizeToFit()
+        searchController.searchBar.tintColor = UIColor.whiteColor()
+        searchController.searchBar.becomeFirstResponder()
+        
+        
+        navigationItem.titleView = searchController.searchBar
+        navigationItem.rightBarButtonItems?.removeFirst()
+        navigationItem.leftBarButtonItems?.removeLast()
+        
+        
+        
+        
+        
+        
+        
+        // By default the navigation bar hides when presenting the
+        // search interface.  Obviously we don't want this to happen if
+        // our search bar is inside the navigation bar.
+        searchController.hidesNavigationBarDuringPresentation = false
+        
+        
+        
+    }
+    
+    
+    
+    func updateSearchResultsForSearchController(searchController: UISearchController){
+        /*
+        self.filteredRestaurants.removeAll(keepCapacity: false)
+        let searchPredicate = NSPredicate(format: "SELF CONTAINS[c] %@", searchController.searchBar.text!)
+        let array = (self.businesses as NSArray).filteredArrayUsingPredicate(searchPredicate)
+        
+        self.filteredRestaurants = array as! [Business]
+        
+        self.tableView.reloadData()
+        */
+        if let searchText = searchController.searchBar.text {
+            filteredTweets = searchText.isEmpty ? tweets : tweets!.filter({(dataString: Tweet) -> Bool in
+                return dataString.user?.name!.rangeOfString(searchText, options: .CaseInsensitiveSearch) != nil
+            })
+            
+            tableView.reloadData()
+        }
+    }
+    
+    
+    
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        
+        let cell = sender as! UITableViewCell
+        let indexPath = tableView.indexPathForCell(cell)
+        let tweet = tweets![indexPath!.row]
+        
+        let detailViewController = segue.destinationViewController as! DetailViewController
+        
+        detailViewController.tweet = tweet
+        
+        
+        print("prepare for segue called")
     }
-    */
+    
 
 }

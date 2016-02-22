@@ -8,6 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		BAB19162621624E7B3BBC5A4 /* Pods_Twitter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D94427190F72BD76C9CAC599 /* Pods_Twitter.framework */; };
+		C43C54A21C799C7600976541 /* home.png in Resources */ = {isa = PBXBuildFile; fileRef = C43C549E1C799C7600976541 /* home.png */; };
+		C43C54A31C799C7600976541 /* new_tweet.png in Resources */ = {isa = PBXBuildFile; fileRef = C43C549F1C799C7600976541 /* new_tweet.png */; };
+		C43C54A41C799C7600976541 /* profile.png in Resources */ = {isa = PBXBuildFile; fileRef = C43C54A01C799C7600976541 /* profile.png */; };
+		C43C54A51C799C7600976541 /* search.png in Resources */ = {isa = PBXBuildFile; fileRef = C43C54A11C799C7600976541 /* search.png */; };
+		C43C54A81C7A53A900976541 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C43C54A61C7A4B6A00976541 /* DetailViewController.swift */; };
 		C45E281D1C6EAEF900A6D3D4 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = C45E281C1C6EAEF900A6D3D4 /* User.swift */; };
 		C45E281F1C6EAF1800A6D3D4 /* Tweet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C45E281E1C6EAF1800A6D3D4 /* Tweet.swift */; };
 		C45E28211C6EF9A400A6D3D4 /* TweetsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C45E28201C6EF9A400A6D3D4 /* TweetsViewController.swift */; };
@@ -29,6 +34,11 @@
 
 /* Begin PBXFileReference section */
 		53419AC8189265EFF9FADF6F /* Pods-Twitter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Twitter.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Twitter/Pods-Twitter.debug.xcconfig"; sourceTree = "<group>"; };
+		C43C549E1C799C7600976541 /* home.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = home.png; path = "brand guideline logos/home.png"; sourceTree = "<group>"; };
+		C43C549F1C799C7600976541 /* new_tweet.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = new_tweet.png; path = "brand guideline logos/new_tweet.png"; sourceTree = "<group>"; };
+		C43C54A01C799C7600976541 /* profile.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = profile.png; path = "brand guideline logos/profile.png"; sourceTree = "<group>"; };
+		C43C54A11C799C7600976541 /* search.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = search.png; path = "brand guideline logos/search.png"; sourceTree = "<group>"; };
+		C43C54A61C7A4B6A00976541 /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		C45E281C1C6EAEF900A6D3D4 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		C45E281E1C6EAF1800A6D3D4 /* Tweet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tweet.swift; sourceTree = "<group>"; };
 		C45E28201C6EF9A400A6D3D4 /* TweetsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TweetsViewController.swift; sourceTree = "<group>"; };
@@ -93,6 +103,10 @@
 		C45E28241C7147E100A6D3D4 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				C43C549E1C799C7600976541 /* home.png */,
+				C43C549F1C799C7600976541 /* new_tweet.png */,
+				C43C54A01C799C7600976541 /* profile.png */,
+				C43C54A11C799C7600976541 /* search.png */,
 				C45E28331C71678600A6D3D4 /* reply-action_0.png */,
 				C45E28291C7148F700A6D3D4 /* TwitterLogo_#55acee.png */,
 				C45E28271C7148DE00A6D3D4 /* TwitterLogo_white.png */,
@@ -130,8 +144,9 @@
 				C48011001C6BF58700267A80 /* API */,
 				C48010EE1C6BF4A500267A80 /* AppDelegate.swift */,
 				C48010F01C6BF4A500267A80 /* ViewController.swift */,
-				C45E28201C6EF9A400A6D3D4 /* TweetsViewController.swift */,
 				C45E28221C7110F200A6D3D4 /* TweetCell.swift */,
+				C45E28201C6EF9A400A6D3D4 /* TweetsViewController.swift */,
+				C43C54A61C7A4B6A00976541 /* DetailViewController.swift */,
 				C48010F21C6BF4A500267A80 /* Main.storyboard */,
 				C48010F51C6BF4A500267A80 /* Assets.xcassets */,
 				C48010F71C6BF4A500267A80 /* LaunchScreen.storyboard */,
@@ -210,8 +225,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C43C54A41C799C7600976541 /* profile.png in Resources */,
 				C45E282A1C7148F700A6D3D4 /* TwitterLogo_#55acee.png in Resources */,
 				C45E28341C71678600A6D3D4 /* reply-action_0.png in Resources */,
+				C43C54A51C799C7600976541 /* search.png in Resources */,
+				C43C54A21C799C7600976541 /* home.png in Resources */,
 				C45E28281C7148DE00A6D3D4 /* TwitterLogo_white.png in Resources */,
 				C48010F91C6BF4A500267A80 /* LaunchScreen.storyboard in Resources */,
 				C45E28321C71631D00A6D3D4 /* retweet-action.png in Resources */,
@@ -219,6 +237,7 @@
 				C48010F61C6BF4A500267A80 /* Assets.xcassets in Resources */,
 				C45E28311C71631D00A6D3D4 /* retweet-action-on.png in Resources */,
 				C48010F41C6BF4A500267A80 /* Main.storyboard in Resources */,
+				C43C54A31C799C7600976541 /* new_tweet.png in Resources */,
 				C45E28301C71631D00A6D3D4 /* like-action.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -278,6 +297,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C43C54A81C7A53A900976541 /* DetailViewController.swift in Sources */,
 				C45E281D1C6EAEF900A6D3D4 /* User.swift in Sources */,
 				C45E28231C7110F200A6D3D4 /* TweetCell.swift in Sources */,
 				C45E281F1C6EAF1800A6D3D4 /* Tweet.swift in Sources */,

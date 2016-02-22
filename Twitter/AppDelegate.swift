@@ -26,12 +26,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             //Go to logged in screen
             print("current user detected")
-            var vc = storyboard.instantiateViewControllerWithIdentifier("TweetsNavigationController") as UIViewController
+            var vc = storyboard.instantiateViewControllerWithIdentifier("TweetsTabBarController") as UIViewController
             window?.rootViewController = vc
             
             
         }
+        UITabBar.appearance().tintColor = UIColor.whiteColor()
         
+
         
         return true
     }

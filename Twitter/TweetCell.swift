@@ -41,8 +41,7 @@ class TweetCell: UITableViewCell {
             fullNameLabel.text = tweet.user?.name
             usernameLabel.text = "@\((tweet.user?.screenname)!)"
             tweetLabel.text = tweet.text
-            timeLabel.text = "- \((tweet.createdAt)!)"
-            
+            timeLabel.text = "· \((tweet?.timeAgo)!)"
             profileImageView.setImageWithURL((tweet.user?.imageURL)!)
 
             
