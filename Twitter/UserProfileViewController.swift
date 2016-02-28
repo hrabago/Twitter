@@ -10,10 +10,42 @@ import UIKit
 
 class UserProfileViewController: UIViewController {
 
+    @IBOutlet weak var fullNameLabel: UILabel!
+    @IBOutlet weak var usernameLabel: UILabel!
+    @IBOutlet weak var profileImageView: UIImageView!
+    
+    @IBOutlet weak var coverImageView: UIImageView!
+    @IBOutlet weak var numTweetsLabel: UILabel!
+    @IBOutlet weak var numFollowersLabel: UILabel!
+    @IBOutlet weak var numFollowing: UILabel!
+    
+    var tweet: Tweet?
+    var backgroundImage: UIImage!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        
+        fullNameLabel.text = tweet?.user?.name
+        usernameLabel.text = "@\((tweet?.user?.screenname)!)"
+        profileImageView.setImageWithURL((tweet?.user?.imageURL)!)
+        
+        numFollowersLabel.text = "\((tweet?.user?.userFollowersCount)!)"
+        numFollowing.text = "\((tweet?.user?.userFollowingCount)!)"
+        numTweetsLabel.text = "\((tweet?.user?.userTweetCount)!)"
+        
+        
+        profileImageView.layer.cornerRadius = 5
+        profileImageView.clipsToBounds = true
+        
+        
+        let data = NSData(contentsOfURL: (tweet?.user?.profileBannerURL)!)
+        backgroundImage = UIImage(data: data!)
+        
+        
+        coverImageView.image = backgroundImage
+        //navigationController?.navigationBar.setBackgroundImage(backgroundImage, forBarMetrics: UIBarMetrics.Default)
     }
 
     override func didReceiveMemoryWarning() {

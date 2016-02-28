@@ -22,6 +22,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "userDidLogout", name: userDidLogoutNotification, object: nil)
         
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "userDidTweet", name: userDidTweetNotification, object: nil)
+        
         if User.currentUser != nil{
             
             //Go to logged in screen
@@ -44,6 +46,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.rootViewController = vc
         
         
+    }
+    
+    func userDidTweet()
+    {
+        var vc = storyboard.instantiateViewControllerWithIdentifier("TweetsTabBarController") as UIViewController
+
+        window?.rootViewController = vc
     }
 
     func applicationWillResignActive(application: UIApplication) {

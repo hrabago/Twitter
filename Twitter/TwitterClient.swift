@@ -51,6 +51,34 @@ class TwitterClient: BDBOAuth1SessionManager {
         })
         
     }
+    func userTimelineWithParams(params: NSDictionary?, completion: (tweets: [Tweet]?, error: NSError?) -> ()){
+        
+        GET("1.1/statuses/user_timeline.json", parameters: params,
+            
+            success: {
+                (
+                operation: NSURLSessionDataTask,
+                response: AnyObject?) -> Void in
+                //print("home_timeline: \(response!)")
+                
+                var tweets = Tweet.tweetsWithArray(response as! [NSDictionary])
+                
+                completion(tweets: tweets, error:nil)
+                
+            },
+            failure: { (
+                operation: NSURLSessionDataTask?,
+                error: NSError!) -> Void in
+                print("error getting current user1")
+                User.currentUser?.logout()
+                completion(tweets: nil , error: error)
+                
+                
+                
+        })
+
+        
+    }
     
     func loginWithCompletion(completion: (user:User?,error: NSError?) -> ()){
         
@@ -109,6 +137,20 @@ class TwitterClient: BDBOAuth1SessionManager {
         }
     }
     
+    func tweetWithCompletion(params: NSDictionary?, completion: (tweet: Tweet?, error: NSError?) -> ()) {
+        
+        POST("1.1/statuses/update.json?status=\(params!["status"] as! String)", parameters: params, success: { (operation: NSURLSessionDataTask, response: AnyObject?) -> Void in
+            
+            var tweet = Tweet.tweetAsDictionary(response as! NSDictionary)
+         
+            
+            completion(tweet: tweet, error: nil)
+            
+            }) { (operation: NSURLSessionDataTask?, error: NSError) -> Void in
+                print("ERROR: \(error)")
+                completion(tweet: nil, error: error)
+        }
+    }
     func openURL(url: NSURL)
     {
         fetchAccessTokenWithPath("oauth/access_token",

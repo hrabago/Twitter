@@ -15,6 +15,7 @@ import UIKit
 
 class TweetCell: UITableViewCell {
 
+    
     @IBOutlet weak var profileImageView: UIImageView!
     
     @IBOutlet weak var fullNameLabel: UILabel!
@@ -32,6 +33,7 @@ class TweetCell: UITableViewCell {
     weak var delegate: TweetCellDelegate?
     
     let favoritePressedImage = UIImage(named: "like-action-on.png")! as UIImage
+    let retweetPressed = UIImage(named: "retweet-action-on.png")! as UIImage
 
     
     var tweet: Tweet!{
@@ -42,9 +44,8 @@ class TweetCell: UITableViewCell {
             usernameLabel.text = "@\((tweet.user?.screenname)!)"
             tweetLabel.text = tweet.text
             timeLabel.text = "· \((tweet?.timeAgo)!)"
-            profileImageView.setImageWithURL((tweet.user?.imageURL)!)
-
             
+            profileImageView.setImageWithURL((tweet.user?.imageURL)!)
             
             
         }
@@ -62,6 +63,8 @@ class TweetCell: UITableViewCell {
         favoriteButton.addTarget(self, action: "favoriteValueChanged", forControlEvents:UIControlEvents.TouchUpInside)
         
         retweetButton.addTarget(self, action: "retweetValueChanged", forControlEvents:UIControlEvents.TouchUpInside)
+        
+        
         
         
         // Initialization code
@@ -89,7 +92,7 @@ class TweetCell: UITableViewCell {
             
         }
         
-        favoriteButton.selected = true
+        favoriteButton.setImage(favoritePressedImage, forState: .Normal)
         
     }
     func retweetValueChanged()
@@ -100,8 +103,7 @@ class TweetCell: UITableViewCell {
             delegate?.tweetCell?(self, didChangeValue: retweetButton.selected)
             
         }
-        
-        retweetButton.selected = true
+        retweetButton.setImage(retweetPressed, forState: .Normal)
         
     }
 

@@ -12,6 +12,7 @@ var _currentUser: User?
 let currentUserKey = "KCurrentUserKey"
 let userDidLoginNotification = "userDidLoginNotification"
 let userDidLogoutNotification = "userDidLogoutNotification"
+let userDidTweetNotification = "userDidTweetNotification"
 
 
 class User: NSObject {
@@ -23,6 +24,13 @@ class User: NSObject {
     var tagline: String?
     var dictionary: NSDictionary?
     var imageURL: NSURL?
+    
+    var userTweetCount: Int?
+    var userFollowersCount: Int?
+    var userFollowingCount: Int?
+    var profileBannerString: String?
+    var profileBannerURL: NSURL?
+    
 
     init(dictionary: NSDictionary)
     {
@@ -32,11 +40,25 @@ class User: NSObject {
         profileImageUrl = dictionary["profile_image_url"] as? String
         tagline = dictionary["description"] as? String
         
+        profileBannerString = dictionary["profile_background_image_url_https"] as? String
+        
+        userTweetCount = dictionary["statuses_count"] as? Int
+        userFollowingCount = dictionary["friends_count"] as? Int
+        userFollowersCount = dictionary["followers_count"] as? Int
+        
         
         if profileImageUrl != nil {
             imageURL = NSURL(string: profileImageUrl!)!
-        } else {
+        }
+        else {
             imageURL = nil
+        }
+        
+        if profileBannerString != nil {
+            profileBannerURL = NSURL(string: profileBannerString!)!
+        }
+        else {
+            profileBannerURL = nil
         }
     }
     
@@ -47,6 +69,12 @@ class User: NSObject {
         TwitterClient.sharedInstance.requestSerializer.removeAccessToken()
         NSNotificationCenter.defaultCenter().postNotificationName(userDidLogoutNotification, object: nil)
     }
+    
+    func tweeted() {
+        
+        NSNotificationCenter.defaultCenter().postNotificationName(userDidTweetNotification, object: nil)
+    }
+
     class var currentUser: User? {
         
         get {

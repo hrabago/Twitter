@@ -23,6 +23,7 @@ class TweetsViewController: UIViewController, UITableViewDataSource, UITableView
     
     
 
+    
     @IBOutlet weak var tableView: UITableView!
     let favoritePressedImage = UIImage(named: "like-action-on.png")! as UIImage
 
@@ -36,7 +37,6 @@ class TweetsViewController: UIViewController, UITableViewDataSource, UITableView
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: "refreshControlAction:", forControlEvents: UIControlEvents.ValueChanged)
         tableView.insertSubview(refreshControl, atIndex: 0)
-
 
         
         let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
@@ -74,6 +74,8 @@ class TweetsViewController: UIViewController, UITableViewDataSource, UITableView
         
 
     }
+    
+  
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -108,7 +110,7 @@ class TweetsViewController: UIViewController, UITableViewDataSource, UITableView
         cell.tweet = filteredTweets?[indexPath.row]
         
         cell.delegate = self
-        
+                
         cell.favoriteButton.selected = favoriteStates[indexPath.row] ?? false
         
         //let backgroundView = UIView()
@@ -174,7 +176,7 @@ class TweetsViewController: UIViewController, UITableViewDataSource, UITableView
                 //self.tweets![indexPath.row].retweetCount = self.tweets![indexPath.row].retweetCount as! Int + 1
                 
                 var indexPath = NSIndexPath(forRow: indexPath.row, inSection: 0)
-                self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Top)
+            self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Top)
                 
             }
             else {
@@ -290,26 +292,40 @@ class TweetsViewController: UIViewController, UITableViewDataSource, UITableView
     }
     
     
-    
+
     
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
+    
+    
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        let bonus = (sender is UITableViewCell ? true : false)
         
-        let cell = sender as! UITableViewCell
-        let indexPath = tableView.indexPathForCell(cell)
-        let tweet = tweets![indexPath!.row]
+        if bonus {
+            let cell = sender as! UITableViewCell
+            let indexPath = tableView.indexPathForCell(cell)
+            let tweet = tweets![indexPath!.row]
+            
+            let detailViewController = segue.destinationViewController as! DetailViewController
+            
+            detailViewController.tweet = tweet
+            
+            
+            print("prepare for segue called")
+            
+        }
         
-        let detailViewController = segue.destinationViewController as! DetailViewController
+        else{
+            
+            
+        }
         
-        detailViewController.tweet = tweet
-        
-        
-        print("prepare for segue called")
     }
     
+    
+ 
 
 }

@@ -20,6 +20,7 @@ class Tweet: NSObject {
     var createdAt: NSDate?
     var timeAgo: String?
     var id: NSNumber?
+    var status: String?
     
     init(dictionary: NSDictionary){
         super.init()
